@@ -1,0 +1,47 @@
+{
+  "name": "sshtun",
+  "version": "1.0.0",
+  "description": "SSH Tunneling Management",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack-dev-server",
+    "dashboard": "webpack-dashboard -- webpack-dev-server",
+    "start": "nodemon -w . -w ~/Workspaces/js/node-bono -w ~/Workspaces/js/node-norm -w ~/Workspaces/js/node-bono-norm -w ~/Workspaces/js/norm-mongo --harmony-async-await index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ganesha <reekoheek@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "bono": "xinix-technology/node-bono#master",
+    "co-body": "^4.2.0",
+    "node-bono-norm": "reekoheek/node-bono-norm#master",
+    "node-fetch": "^1.6.3",
+    "node-norm": "xinix-technology/node-norm#master"
+  },
+  "devDependencies": {
+    "babel-core": "^6.22.1",
+    "babel-loader": "^6.2.10",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "babili-webpack-plugin": "0.0.8",
+    "css-loader": "^0.26.1",
+    "eslint": "^3.14.0",
+    "eslint-config-standard": "^6.2.1",
+    "eslint-plugin-promise": "^3.4.0",
+    "eslint-plugin-standard": "^2.0.1",
+    "extract-text-webpack-plugin": "^2.0.0-beta.5",
+    "file-loader": "^0.9.0",
+    "html-loader": "^0.4.4",
+    "material-design-icons": "^3.0.1",
+    "migrate": "^0.2.3",
+    "node-sass": "^4.3.0",
+    "purifycss-webpack": "^0.2.2",
+    "sass-loader": "^4.1.1",
+    "style-loader": "^0.13.1",
+    "uglify-js": "github:mishoo/UglifyJS2#harmony",
+    "url-loader": "^0.5.7",
+    "webpack": "^2.2.0",
+    "webpack-dashboard": "^0.2.1",
+    "webpack-dev-server": "^2.2.0",
+    "xin": "github:xinix-technology/xin#next"
+  }
+}
