@@ -1,5 +1,5 @@
 const path = require('path');
-const webpack = require('webpack');
+// const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 // const UglifyJsPlugin = webpack.optimize.UglifyJsPlugin; //require('./dev/webpack/UglifyJsPlugin');
@@ -16,30 +16,7 @@ module.exports = function (env) {
       filename: 'lib/[name].js',
     },
     devtool: 'source-map',
-    plugins: [
-      new DashboardPlugin(),
-      new webpack.LoaderOptionsPlugin({
-        // options: {
-        //   debug: true,
-        // },
-      }),
-      // new UglifyJsPlugin({
-      //   compress: false,
-      //   // compress: { warnings: true },
-      //   mangle: false,
-      //   sourceMap: true,
-      // }),
-      new ExtractTextPlugin({
-        filename: 'lib/bundle.css',
-        disable: false,
-        allChunks: true,
-      }),
-      // new UglifyJsPlugin({
-      //   compress: {
-      //     warnings: true,
-      //   },
-      // }),
-    ],
+    plugins: getPlugins(env),
     module: {
       rules: [
         {
@@ -85,6 +62,34 @@ module.exports = function (env) {
     },
   };
 };
+
+function getPlugins ({ dashboard } = {}) {
+  const plugins = [];
+
+  if (dashboard) {
+    plugins.push(new DashboardPlugin());
+  }
+
+  plugins.push(new ExtractTextPlugin({
+    filename: 'lib/bundle.css',
+    disable: false,
+    allChunks: true,
+  }));
+
+  return plugins;
+
+  // new webpack.LoaderOptionsPlugin({
+  //   // options: {
+  //   //   debug: true,
+  //   // },
+  // }),
+  // new UglifyJsPlugin({
+  //   compress: false,
+  //   // compress: { warnings: true },
+  //   mangle: false,
+  //   sourceMap: true,
+  // }),
+}
 
 function getCssLoader () {
   // return [ 'style-loader', 'css-loader' ];

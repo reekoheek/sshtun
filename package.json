@@ -4,9 +4,14 @@
   "description": "SSH Tunneling Management",
   "main": "index.js",
   "scripts": {
+    "clean": "rm -rf node_modules ui/lib",
+    "docker:build": "docker build -t reekoheek/sshtun .",
+    "docker:shell": "docker run --rm -ti reekoheek/sshtun sh",
+    "docker:up": "docker run --rm -p 3000:3000 reekoheek/sshtun",
     "dev": "webpack-dev-server",
-    "dashboard": "webpack-dashboard -- webpack-dev-server",
-    "start": "nodemon -w . -w ~/Workspaces/js/node-bono -w ~/Workspaces/js/node-norm -w ~/Workspaces/js/node-bono-norm -w ~/Workspaces/js/norm-mongo --harmony-async-await index.js",
+    "dashboard": "webpack-dashboard -- webpack-dev-server --env.dashboard=1",
+    "build": "webpack",
+    "start": "nodemon --harmony-async-await index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ganesha <reekoheek@gmail.com>",
@@ -14,6 +19,7 @@
   "dependencies": {
     "bono": "xinix-technology/node-bono#master",
     "co-body": "^4.2.0",
+    "koa-static": "^3.0.0",
     "node-bono-norm": "reekoheek/node-bono-norm#master",
     "node-fetch": "^1.6.3",
     "node-norm": "xinix-technology/node-norm#master"
@@ -42,6 +48,8 @@
     "webpack": "^2.2.0",
     "webpack-dashboard": "^0.2.1",
     "webpack-dev-server": "^2.2.0",
-    "xin": "github:xinix-technology/xin#next"
+    "xin": "github:xinix-technology/xin#next",
+    "xin-connect": "github:reekoheek/xin-connect",
+    "xin-ui": "github:reekoheek/xin-ui"
   }
 }
