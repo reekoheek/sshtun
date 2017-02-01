@@ -17,11 +17,7 @@ require('material-design-icons/iconfont/material-icons.css');
 
 require('./css/theme.css');
 
-require('xin');
 require('xin/components/pager');
 require('xin/components/repeat');
-require('xin-ui/ui-drawer');
-require('xin-connect/connect-pool');
-require('xin-connect/connect-fetch');
-require('xin/middlewares/lazy-view');
-require('xin/components/app');
+
+System.import('./components/st-app');

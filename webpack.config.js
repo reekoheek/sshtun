@@ -57,6 +57,7 @@ module.exports = function (env) {
       host: '0.0.0.0',
       proxy: {
         '/api': { target: 'http://localhost:3000' },
+        '/auth': { target: 'http://localhost:3000' },
       },
       // contentBase: (() => (env.cordova ? ['./www', './platforms/android/platform_www'] : [ './www' ]))(),
     },

@@ -7,7 +7,8 @@
     "clean": "rm -rf node_modules ui/lib",
     "docker:build": "docker build -t reekoheek/sshtun .",
     "docker:shell": "docker run --rm -ti reekoheek/sshtun sh",
-    "docker:up": "docker run --rm -p 3000:3000 reekoheek/sshtun",
+    "docker:up": "docker run -d --name sshtun -p 3000:3000 reekoheek/sshtun",
+    "docker:down": "docker stop sshtun",
     "dev": "webpack-dev-server",
     "dashboard": "webpack-dashboard -- webpack-dev-server --env.dashboard=1",
     "build": "webpack",
@@ -19,6 +20,8 @@
   "dependencies": {
     "bono": "xinix-technology/node-bono#master",
     "co-body": "^4.2.0",
+    "kcors": "^2.2.0",
+    "koa-jwt": "^2.2.2",
     "koa-static": "^3.0.0",
     "node-bono-norm": "reekoheek/node-bono-norm#master",
     "node-fetch": "^1.6.3",
@@ -50,6 +53,7 @@
     "webpack-dev-server": "^2.2.0",
     "xin": "github:xinix-technology/xin#next",
     "xin-connect": "github:reekoheek/xin-connect",
+    "xin-jwt": "github:reekoheek/xin-jwt",
     "xin-ui": "github:reekoheek/xin-ui"
   }
 }

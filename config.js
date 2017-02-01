@@ -5,10 +5,12 @@ const NBoolean = require('node-norm/schema/nboolean');
 
 const conf = {
   development: {
+    secret: 'please replace this',
     connections: [
       {
         name: 'default',
         adapter: 'disk',
+        file: process.env.SSHTUN_DB,
         schemas: [
           {
             name: 'tunnel',
