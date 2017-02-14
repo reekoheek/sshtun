@@ -1,42 +1,53 @@
 const Bundle = require('bono/bundle');
 const TunnelBundle = require('./tunnel');
-const NormBundle = require('node-bono-norm/bundle');
+const ServerBundle = require('./server');
+const SSHKeyBundle = require('./ssh-key');
 const Manager = require('node-norm/manager');
 const jwt = require('koa-jwt');
 const cors = require('kcors');
 
 class Api extends Bundle {
-  constructor (options = {}) {
+  constructor ({ secret, connections = [] }) {
     super();
 
-    this.manager = new Manager(options);
+    let manager = this.manager = new Manager({ connections });
 
-    const { secret } = options;
-
+    this.use(require('bono/middlewares/logger')());
     this.use(cors());
-    this.use(async (ctx, next) => {
-      if (ctx.method !== 'GET' || ctx.url !== '/ping') {
-        await next();
-        return;
-      }
-
-      ctx.body = { time: new Date() };
-    });
+    this.use(pingMw());
     this.use(jwt({ secret }));
     this.use(require('bono/middlewares/json')());
-    this.use(require('node-bono-norm')(this.manager));
-    this.use(require('../middlewares/tunnel')(this.manager));
+    this.use(require('node-bono-norm')({ manager }));
 
-    this.bundle('/server', new NormBundle({ schema: 'server' }));
+    this.bundle('/server', new ServerBundle());
     this.bundle('/tunnel', new TunnelBundle());
+    this.bundle('/ssh-key', new SSHKeyBundle());
 
     this.initialize();
   }
 
   async initialize () {
-    const tunnels = await this.manager.find('tunnel').all();
-    console.log('tunnels', tunnels);
+    const tunnels = await this.manager.factory('tunnel', { autostart: true }).all();
+    await Promise.all(tunnels.map(async tunnel => {
+      try {
+        await tunnel.stop();
+      } catch (err) {
+        console.error(err);
+      }
+      await tunnel.start();
+    }));
   }
+}
+
+function pingMw () {
+  return async (ctx, next) => {
+    if (ctx.method !== 'GET' || ctx.url !== '/ping') {
+      await next();
+      return;
+    }
+
+    ctx.body = { time: new Date() };
+  };
 }
 
 module.exports = Api;

@@ -27,7 +27,6 @@ class StServers extends View {
       }
 
       const data = await response.json();
-      console.log(data);
       this.set('servers', data.entries);
     })();
   }

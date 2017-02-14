@@ -5,7 +5,7 @@
     </button>
     <span class="ui-header__title">Server</span>
     <span class="ui-spacer"></span>
-    <a href="#!/server-add" class="ui-button ui-button--icon">
+    <a href="#!/server/null/create" class="ui-button ui-button--icon">
       <i class="material-icons">add</i>
     </a>
   </div>
@@ -13,6 +13,6 @@
 
 <div class="ui-list">
   <template is="xin-repeat" items="[[servers]]" as="server">
-    <a class="ui-list__item" href="[[computeServerUrl(server.id)]]">[[server.name]]</a>
+    <a class="ui-list__item" href="[[computeServerUrl(server.id)]]"><span>[[server.name]]</span> (<span>[[server.username]]</span>@<span>[[server.hostname]]</span>:<span>[[server.port]]</span>)</a>
   </template>
 </div>

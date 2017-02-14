@@ -95,8 +95,8 @@ function getPlugins ({ dashboard } = {}) {
 function getCssLoader () {
   // return [ 'style-loader', 'css-loader' ];
   return ExtractTextPlugin.extract({
-    fallbackLoader: 'style-loader',
-    loader: [
+    fallback: 'style-loader',
+    use: [
       {
         loader: 'css-loader',
       },
@@ -126,10 +126,10 @@ function getBabelLoader () {
     loader: 'babel-loader',
     options: {
       babelrc: false,
-      plugins: [
-        require.resolve('babel-plugin-syntax-dynamic-import'),
+      // plugins: [
+      //   'babel-plugin-syntax-dynamic-import',
       //   'babel-plugin-transform-async-to-generator',
-      ],
+      // ],
       // presets: [
       //   'babel-preset-es2015',
       //   'babel-preset-stage-3',

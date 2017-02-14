@@ -1,4 +1,6 @@
-class Tunnel {
+import Base from './base';
+
+class Tunnel extends Base {
   static async get (id) {
     const response = await window.pool.fetch(`/tunnel/${id}`);
     if (!response.ok) {
@@ -9,18 +11,14 @@ class Tunnel {
     return new Tunnel(result.entry);
   }
 
-  constructor (row) {
-    Object.assign(this, row);
-  }
-
-  async withStatus () {
-    const response = await window.pool.fetch(`/tunnel/${this.id}/status`);
+  static async all () {
+    const response = await window.pool.fetch('/tunnel');
     if (!response.ok) {
       throw new Error('Response from server is not ok');
     }
 
-    const result = await response.json();
-    this.status = result.status;
+    const data = await response.json();
+    return data.entries.map(row => new Tunnel(row));
   }
 
   async start () {
@@ -42,10 +40,8 @@ class Tunnel {
   }
 
   async delete () {
-    await this.withStatus();
-
     if (this.status) {
-      throw new Error('Failed to delete running tunnel');
+      throw new Error('Cannot delete running tunnel');
     }
 
     const response = await window.pool.fetch(`/tunnel/${this.id}`, { method: 'DELETE' });

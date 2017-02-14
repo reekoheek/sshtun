@@ -21,16 +21,7 @@ const conf = {
               bind: new NString('bind'),
               autostart: new NBoolean('autostart'),
             },
-            // observers: [
-            //   {
-            //     type: 'save',
-            //     use: async (ctx, next) => {
-            //       console.log('before');
-            //       await next();
-            //       console.log('after');
-            //     },
-            //   },
-            // ],
+            modelClass: require('./lib/tunnel'),
           },
           {
             name: 'server',
@@ -40,6 +31,7 @@ const conf = {
               hostname: new NString('hostname').filter('required'),
               port: new NInteger('port'),
             },
+            modelClass: require('./lib/server'),
           },
         ],
       },

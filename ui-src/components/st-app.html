@@ -4,9 +4,10 @@
 <connect-pool id="pool" ref="{{pool}}" base-url="/api" ping-url="/ping" headers="[[headers]]"></connect-pool>
 
 <ui-drawer id="drawer">
-  <div class="ui-list">
+  <div class="ui-list" class.hidden="[[jwtToken | not]]">
     <a class="ui-list__item" href="#!/">Tunnel</a>
     <a class="ui-list__item" href="#!/server">Server</a>
+    <a class="ui-list__item" href="#!/ssh-key">SSH Key</a>
     <a class="ui-list__item" (click)='logoutClicked(evt)'>Logout</a>
   </div>
 </ui-drawer>
@@ -15,12 +16,14 @@
   <xin-pager class="flex">
     <st-login lazy-view uri="/login"></st-login>
     <st-tunnels lazy-view uri="/"></st-tunnels>
+
     <st-servers lazy-view uri="/server"></st-servers>
-
-    <st-tunnel lazy-view uri="/tunnel-add"></st-tunnel>
-    <st-tunnel lazy-view uri="/tunnel/{id}"></st-tunnel>
-
-    <st-server lazy-view uri="/server-add"></st-server>
     <st-server lazy-view uri="/server/{id}"></st-server>
+    <st-server lazy-view uri="/server/null/create"></st-server>
+
+    <st-tunnel lazy-view uri="/tunnel/{id}"></st-tunnel>
+    <st-tunnel lazy-view uri="/tunnel/null/create"></st-tunnel>
+
+    <st-ssh-key lazy-view uri="/ssh-key"></st-ssh-key>
   </xin-pager>
 </main>

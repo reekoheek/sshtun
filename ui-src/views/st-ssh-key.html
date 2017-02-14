@@ -1,0 +1,16 @@
+<header class="ui-header">
+  <div class="ui-header__row">
+    <a class="ui-button ui-button--icon ui-drawer--handle" href="javascript:history.back()">
+      <i class="material-icons">arrow_back</i>
+    </a>
+    <span class="ui-header__title">SSH Key</span>
+    <span class="ui-spacer"></span>
+    <a class="ui-button ui-button--icon" (click)="generateClicked(evt)">
+      <i class="material-icons">add</i>
+    </a
+  </div>
+</header>
+
+<div class="ui-padding">
+  <code style="word-wrap:break-word;">[[pubKey]]</code>
+</div>

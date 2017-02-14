@@ -2,6 +2,7 @@ import xin from 'xin';
 import View from 'xin/components/view';
 import html from './st-server.html';
 import UISnackbar from 'xin-ui/ui-snackbar';
+import Server from '../lib/server';
 
 import 'xin-ui/ui-form';
 import 'xin-ui/ui-textfield';
@@ -14,7 +15,7 @@ class StServer extends View {
   get props () {
     return Object.assign({}, super.props, {
       server: {
-        type: Array,
+        type: Object,
       },
     });
   }
@@ -23,19 +24,12 @@ class StServer extends View {
     super.focused();
 
     if (!this.parameters.id) {
-      this.set('server', {});
+      this.set('server', new Server());
       return;
     }
 
     (async () => {
-      const response = await window.pool.fetch(`/server/${this.parameters.id}`);
-      if (!response.ok) {
-        console.error('Response from server is not ok');
-        return;
-      }
-
-      const result = await response.json();
-      this.set('server', result.entry);
+      this.set('server', await Server.get(this.parameters.id));
     })();
   }
 
@@ -46,33 +40,42 @@ class StServer extends View {
   async submitted (evt) {
     evt.preventDefault();
 
-    let body = JSON.stringify(this.server);
-    let url = '/server';
-    let method = 'POST';
-    if (this.parameters.id) {
-      url = `/server/${this.parameters.id}`;
-      method = 'PUT';
+    try {
+      await this.server.save();
+      UISnackbar.show({ message: 'Record saved' });
+      this.__app.navigate('/server');
+    } catch (err) {
+      UISnackbar.show({ message: err.message });
     }
-
-    const response = await window.pool.fetch(url, { method, body });
-    if (!response.ok) {
-      await UISnackbar.show({ message: 'Error on saving record' });
-      return;
-    }
-
-    await UISnackbar.show({ message: 'Record saved' });
-    this.__app.navigate('/server');
   }
 
   async deleteClicked (evt) {
-    const response = await window.pool.fetch(`/server/${this.parameters.id}`, { method: 'DELETE' });
-    if (!response.ok) {
-      await UISnackbar.show({ message: 'Error on deleting record' });
-      return;
-    }
+    evt.preventDefault();
 
-    await UISnackbar.show({ message: 'Record deleted' });
-    this.__app.navigate('/server');
+    try {
+      await this.server.delete();
+
+      UISnackbar.show({ message: 'Record deleted' });
+      this.__app.navigate('/server');
+    } catch (err) {
+      UISnackbar.show({ message: 'Error on deleting record' });
+    }
+  }
+
+  async testClicked (evt) {
+    evt.preventDefault();
+
+    try {
+      let result = await this.server.test();
+      if (result) {
+        window.alert('Connection ok');
+      } else {
+        window.alert('Connection, failed');
+      }
+    } catch (err) {
+      console.error(err);
+      window.alert('Error test server');
+    }
   }
 }
 

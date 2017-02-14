@@ -1,6 +1,7 @@
 import xin from 'xin';
 import View from 'xin/components/view';
 
+import Tunnel from '../lib/tunnel';
 import html from './st-tunnels.html';
 
 class StTunnels extends View {
@@ -8,24 +9,18 @@ class StTunnels extends View {
     return html;
   }
 
-  focused () {
+  async focused () {
     super.focused();
 
-    (async () => {
-      const response = await window.pool.fetch('/tunnel');
-      if (!response.ok) {
-        console.error('Response from server is not ok');
-        return;
-      }
-
-      const data = await response.json();
-      console.log(data);
-      this.set('tunnels', data.entries);
-    })();
+    this.set('tunnels', await Tunnel.all());
   }
 
   computeTunnelUrl (id) {
     return `#!/tunnel/${id}`;
+  }
+
+  computeStatus (status) {
+    return status ? 'running' : 'stopped';
   }
 }
 

@@ -17,7 +17,7 @@ class StTunnel extends View {
   get props () {
     return Object.assign({}, super.props, {
       tunnel: {
-        type: Array,
+        type: Object,
       },
 
       serverOptions: {
@@ -32,12 +32,8 @@ class StTunnel extends View {
     (async () => {
       let [ servers, tunnel ] = await Promise.all([
         Server.all(),
-        this.parameters.id ? Tunnel.get(this.parameters.id) : {},
+        this.parameters.id ? Tunnel.get(this.parameters.id) : new Tunnel(),
       ]);
-
-      if (tunnel.withStatus) {
-        await tunnel.withStatus();
-      }
 
       this.set('tunnel', tunnel);
       this.set('serverOptions', servers.map(server => ({ label: server.name, value: server.id })));
@@ -61,11 +57,11 @@ class StTunnel extends View {
 
     const response = await window.pool.fetch(url, { method, body });
     if (!response.ok) {
-      await UISnackbar.show({ message: 'Error on saving record' });
+      UISnackbar.show({ message: 'Error on saving record' });
       return;
     }
 
-    await UISnackbar.show({ message: 'Record saved' });
+    UISnackbar.show({ message: 'Record saved' });
     this.__app.navigate('/');
   }
 
@@ -73,11 +69,11 @@ class StTunnel extends View {
     try {
       await this.tunnel.delete();
 
-      await UISnackbar.show({ message: 'Record deleted' });
+      UISnackbar.show({ message: 'Record deleted' });
       this.__app.navigate('/');
     } catch (err) {
-      console.error(err);
-      await UISnackbar.show({ message: err.message });
+      console.warn(err);
+      UISnackbar.show({ message: err.message });
     }
   }
 
@@ -87,10 +83,10 @@ class StTunnel extends View {
 
       this.notify('tunnel');
 
-      await UISnackbar.show({ message: 'Record started' });
+      UISnackbar.show({ message: 'Record started' });
     } catch (err) {
-      console.error(err);
-      await UISnackbar.show({ message: err.message });
+      console.warn(err);
+      UISnackbar.show({ message: err.message });
     }
   }
 
@@ -100,10 +96,10 @@ class StTunnel extends View {
 
       this.notify('tunnel');
 
-      await UISnackbar.show({ message: 'Record stopped' });
+      UISnackbar.show({ message: 'Record stopped' });
     } catch (err) {
-      console.error(err);
-      await UISnackbar.show({ message: err.message });
+      console.warn(err);
+      UISnackbar.show({ message: err.message });
     }
   }
 }

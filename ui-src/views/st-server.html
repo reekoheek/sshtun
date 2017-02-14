@@ -19,3 +19,7 @@
 
   <button class="ui-button ui-button--colored ui-button--block">Save</button>
 </form>
+
+<div class="ui-padding" class.hidden="[[parameters.id | not]]">
+  <button class="ui-button ui-button--colored ui-button--block flex" (click)="testClicked(evt)">Test</button>
+</div>

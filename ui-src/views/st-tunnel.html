@@ -16,14 +16,11 @@
   <ui-selectfield label="Server" value="{{tunnel.server}}" options="[[serverOptions]]"></ui-selectfield>
   <ui-textfield label="Port" type="number" value="{{tunnel.port}}"></ui-textfield>
   <ui-textfield label="Bind" type="text" value="{{tunnel.bind}}"></ui-textfield>
-
+  <ui-textfield label="Status" disabled type="text" value="{{tunnel.status}}"></ui-textfield>
   <button class="ui-button ui-button--colored ui-button--block">Save</button>
 </form>
 
 <div class="ui-padding" class.hidden="[[parameters.id | not]]">
-  <div>
-    Status: <span>[[tunnel.status]]</span>
-  </div>
   <button class="ui-button ui-button--colored ui-button--block flex" class.hidden="[[tunnel.status]]" (click)="startClicked(evt)">Start</button>
   <button class="ui-button ui-button--colored ui-button--block flex" class.hidden="[[tunnel.status | not]]" (click)="stopClicked(evt)">Stop</button>
 </div>

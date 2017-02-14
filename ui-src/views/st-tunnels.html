@@ -5,7 +5,7 @@
     </button>
     <span class="ui-header__title">Tunnel</span>
     <span class="ui-spacer"></span>
-    <a href="#!/tunnel-add" class="ui-button ui-button--icon">
+    <a href="#!/tunnel/null/create" class="ui-button ui-button--icon">
       <i class="material-icons">add</i>
     </a>
   </div>
@@ -13,6 +13,10 @@
 
 <div class="ui-list">
   <template is="xin-repeat" items="[[tunnels]]" as="tunnel">
-    <a class="ui-list__item" href="[[computeTunnelUrl(tunnel.id)]]">[[tunnel.name]]</a>
+    <a class="ui-list__item" href="[[computeTunnelUrl(tunnel.id)]]">
+      <span>[[tunnel.name]]</span>
+      (<span>[[tunnel.bind]]</span> =&gt; <span>[[tunnel.$server]]</span>:<span>[[tunnel.port]]</span>)
+      <span style="float: right">[[computeStatus(tunnel.status)]]</span>
+    </a>
   </template>
 </div>
